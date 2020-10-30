@@ -26,6 +26,9 @@
 	"peerDependencies": {
 		"express": "^4.17.1"
 	},
+	"files": [
+		"dist"
+	],
 	"publishConfig": {
 		"registry": "https://zpm.admin.zensors.live"
 	}
