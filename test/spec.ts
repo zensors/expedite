@@ -1,5 +1,5 @@
-import * as ive from "../src"; // force it to typecheck in CI
+import * as expedite from "../src"; // force it to typecheck in CI
 
-describe("@zensors/ive", () => {
-	it("should have a test runner stub", () => ive);
+describe("@zensors/expedite", () => {
+	it("should have a test runner stub", () => expedite);
 });
