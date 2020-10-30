@@ -1,0 +1,38 @@
+steps:
+  - label: ":mocha: Testing"
+    commands:
+      - "echo '--- Setting up'"
+      - "mkdir -p /test"
+      - "cp -R . /test"
+      - "cd /test"
+      - "echo 'always-auth=true' >> ~/.npmrc"
+      - "echo '@zensors:registry=https://zpm.admin.zensors.live/' >> ~/.npmrc"
+      - 'echo "//zpm.admin.zensors.live/:_authToken=\"$NPM_TOKEN\"" >> ~/.npmrc'
+      - "echo '--- Installing Packages'"
+      - "yarn install"
+      - "echo '+++ Running Tests'"
+      - "yarn test"
+    plugins:
+      - docker#v3.7.0:
+          image: "node:lts"
+
+  - wait
+
+  - label: ":npm: Building and Publishing Module"
+    commands:
+      - "echo '--- Setting up'"
+      - "mkdir -p /build"
+      - "cp -R . /build"
+      - "cd /build"
+      - "echo 'always-auth=true' >> ~/.npmrc"
+      - "echo '@zensors:registry=https://zpm.admin.zensors.live/' >> ~/.npmrc"
+      - 'echo "//zpm.admin.zensors.live/:_authToken=\"$NPM_TOKEN\"" >> ~/.npmrc'
+      - "echo '--- Installing Packages'"
+      - "yarn install"
+      - "echo '+++ Publishing'"
+      - "yarn publish"
+    plugins:
+      - docker#v3.7.0:
+          image: "node:lts"
+          propagate-environment: true
+    if: build.branch == "master"

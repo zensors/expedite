@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"noEmitOnError": true,
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"moduleResolution": "node",
+		"pretty": true,
+		"types": [
+			"node"
+		],
+		"composite": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"outDir": "dist",
+		"rootDir": "src"
+	},
+	"include": [
+		"src"
+	]
+}
