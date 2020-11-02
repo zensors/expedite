@@ -155,14 +155,14 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 export const marshalParams =
 	<T>(description: MarshalUnion<T>) =>
 	<R extends UnknownRequest>(req: R) => {
-		marshal(req.body, description);
+		marshal(req.params, description);
 		return req as R & Request<T, unknown, unknown, unknown>;
 	};
 
 export const marshalQuery =
 	<T>(description: MarshalUnion<T>) =>
 	<R extends UnknownRequest>(req: R) => {
-		marshal(req.body, description);
+		marshal(req.query, description);
 		return req as R & Request<unknown, unknown, unknown, T>;
 	};
 
