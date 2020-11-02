@@ -1,7 +1,17 @@
 import { marshal, MarshalUnion } from "@zensors/sheriff";
-import { NextFunction, Request, RequestHandler, Response, Router as ExpressRouter } from "express";
+import {
+	IRouterHandler,
+	IRouterMatcher,
+	NextFunction,
+	Request,
+	RequestHandler,
+	Response,
+	Router as ExpressRouter
+} from "express";
 
 export type UnknownRequest = Request<unknown, unknown, unknown, unknown>;
+
+type ExpressUsable = IRouterHandler<any> & IRouterMatcher<any>;
 
 class Consumable {
 	private consumed: boolean;
@@ -22,7 +32,7 @@ class Consumable {
 	}
 }
 
-export class Router<T extends UnknownRequest> extends Consumable {
+export class Router<S extends UnknownRequest = UnknownRequest, T extends UnknownRequest = S> extends Consumable {
 	private router: ExpressRouter;
 
 	public constructor(router?: ExpressRouter) {
@@ -30,13 +40,24 @@ export class Router<T extends UnknownRequest> extends Consumable {
 		this.router = router ?? ExpressRouter();
 	}
 
-	public use(fn: (req: T, res: Response, next: NextFunction) => void): Router<T> {
+
+	public use<R extends UnknownRequest>(subpath: string, usable: Router<T, R>): Router<S, T>;
+	public use<R extends UnknownRequest>(usable: Router<T, R>): Router<S, T>;
+	public use(subpath: string, usable: ExpressUsable): Router<S, T>;
+	public use(usable: ExpressUsable): Router<S, T>;
+	public use(first: unknown, second?: unknown): Router<S, T> {
 		this.consume();
-		this.router.use(fn as any); // unavoidable cast
+		if (first instanceof Router) {
+			first = first.toExpress();
+		}
+		if (second instanceof Router) {
+			second = second.toExpress();
+		}
+		this.router.use(first as any, second as any); // unavoidable cast
 		return new Router(this.router);
 	}
 
-	public then<S extends UnknownRequest>(fn: (req: T) => S | Promise<S>): Router<S> {
+	public then<T1 extends UnknownRequest>(fn: (req: T) => T1 | Promise<T1>): Router<S, T1> {
 		this.consume();
 
 		this.router.use(async (req, _res, next) => {
