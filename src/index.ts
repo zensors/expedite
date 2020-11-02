@@ -142,7 +142,7 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 		);
 	}
 
-	public finish<S>(fn: (req: T, res: Response<S>) => void): void {
+	public finish<S>(fn: (req: T, res: Response<S>) => void | Promise<void>): void {
 		this.consume();
 		this.router[this.method](
 			this.path,
