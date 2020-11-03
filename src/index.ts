@@ -61,8 +61,12 @@ export class Router<S extends UnknownRequest = UnknownRequest, T extends Unknown
 		this.consume();
 
 		this.router.use(async (req, _res, next) => {
-			await fn(req as T);
-			next();
+			try {
+				await fn(req as T);
+				next();
+			} catch (e) {
+				next(e);
+			}
 		});
 
 		return new Router(this.router);
@@ -123,8 +127,12 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 			this.path,
 			this.handlers.concat([
 				async (req, _res, next) => {
-					await fn(req as T);
-					next();
+					try {
+						await fn(req as T);
+						next();
+					} catch (e) {
+						next(e);
+					}
 				}
 			])
 		);
@@ -135,9 +143,13 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 		this.router[this.method](
 			this.path,
 			...this.handlers,
-			async (req, res: Response<S>) => {
-				let reply = await fn(req as T); // unavoidable cast
-				res.send(reply);
+			async (req, res: Response<S>, next) => {
+				try {
+					let reply = await fn(req as T); // unavoidable cast
+					res.send(reply);
+				} catch (e) {
+					next(e);
+				}
 			}
 		);
 	}
@@ -147,7 +159,13 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 		this.router[this.method](
 			this.path,
 			...this.handlers,
-			(req, res) => fn(req as T, res)
+			async (req, res, next) => {
+				try {
+					return await fn(req as T, res)
+				} catch (e) {
+					next(e);
+				}
+			}
 		);
 	}
 }
