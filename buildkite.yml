@@ -7,7 +7,7 @@ steps:
       - "cd /test"
       - "cp .yarnrc.ci.yml ~/.yarnrc.yml"
       - "echo '--- Installing Packages'"
-      - "yarn install"
+      - "yarn install --immutable"
       - "echo '+++ Running Tests'"
       - "yarn test"
     plugins:
@@ -25,9 +25,9 @@ steps:
       - "cd /build"
       - "cp .yarnrc.ci.yml ~/.yarnrc.yml"
       - "echo '--- Installing Packages'"
-      - "yarn install"
+      - "yarn install --immutable"
       - "echo '+++ Publishing'"
-      - "yarn publish"
+      - "yarn npm publish"
     plugins:
       - docker#v3.7.0:
           image: "node:lts"

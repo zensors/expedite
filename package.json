@@ -12,7 +12,7 @@
 	"author": "Zensors Inc.",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"@zensors/sheriff": "^1.0.0"
+		"@zensors/sheriff": "^1.1.0"
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.8",
