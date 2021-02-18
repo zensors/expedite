@@ -106,7 +106,7 @@ __metadata:
     "@types/express": ^4.17.8
     "@types/mocha": ^8.0.3
     "@types/node": ^14.14.5
-    "@zensors/sheriff": ^1.1.0
+    "@zensors/sheriff": ^2.0.0
     express: ^4.17.1
     mocha: ^8.2.0
     ts-node: ^9.0.0
@@ -116,10 +116,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zensors/sheriff@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@zensors/sheriff@npm:1.1.0"
-  checksum: 8e682d4169583d14338aff54b1db9958833e8791147d69fd681625c5bd11ed42efa84e7e6dd6b27642e2c8743753a5918a385ff25ddbb986570471231426f4b0
+"@zensors/sheriff@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@zensors/sheriff@npm:2.0.0"
+  checksum: d6922b08db29de3c70eb95f165d085167c774c987bf10f1341e905e18144e865f1ba4f0c4c516b3c80f2b69da4b7c8b70b882df0541817ef5181692fe1f85a96
   languageName: node
   linkType: hard
 

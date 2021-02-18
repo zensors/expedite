@@ -1,4 +1,4 @@
-import { marshal, MarshalUnion } from "@zensors/sheriff";
+import { marshal, Marshaller } from "@zensors/sheriff";
 import {
 	IRouterHandler,
 	IRouterMatcher,
@@ -334,7 +334,7 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
  * @throws if the request parameters do not match the marshaller
  */
 export const marshalParams =
-	<T>(description: MarshalUnion<T>) =>
+	<T>(description: Marshaller<T>) =>
 	<R extends UnknownRequest>(req: R) => {
 		marshal(req.params, description);
 		return req as R & Request<T, unknown, unknown, unknown>;
@@ -348,7 +348,7 @@ export const marshalParams =
  * @throws if the request query parameters do not match the marshaller
  */
 export const marshalQuery =
-	<T>(description: MarshalUnion<T>) =>
+	<T>(description: Marshaller<T>) =>
 	<R extends UnknownRequest>(req: R) => {
 		marshal(req.query, description);
 		return req as R & Request<unknown, unknown, unknown, T>;
@@ -361,7 +361,7 @@ export const marshalQuery =
  * @throws if the request body does not match the marshaller
  */
 export const marshalBody =
-	<T>(description: MarshalUnion<T>) =>
+	<T>(description: Marshaller<T>) =>
 	<R extends UnknownRequest>(req: R) => {
 		marshal(req.body, description);
 		return req as R & Request<unknown, unknown, T, unknown>;
