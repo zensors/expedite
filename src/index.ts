@@ -295,7 +295,7 @@ class LeafRouter<T extends UnknownRequest> extends Consumable {
 			async (req, res: Response<S>, next) => {
 				try {
 					let reply = await fn(req as T); // unavoidable cast
-					res.send(reply);
+					res.json(reply);
 				} catch (e) {
 					next(e);
 				}
